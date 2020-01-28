@@ -1,0 +1,27 @@
+{
+  "name": "node_demy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stevenpaulino1/node.git"
+  },
+  "author": "steven paulino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Stevenpaulino1/node/issues"
+  },
+  "homepage": "https://github.com/Stevenpaulino1/node#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
