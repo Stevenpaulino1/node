@@ -1,11 +1,15 @@
+const path = require('path')
+
 const express = require('express')
+
+const rootDir = require('../utils/path')
 
 const router = express.Router()
 
-router.use('/',(req,res,next)=>{
+router.get('/',(req,res,next)=>{
     console.log("home");
     
-    res.send("<h1>From express!</h1>")
+    res.sendFile(path.join(rootDir, 'views', 'shop.html'))
 })
 
 module.exports = router
