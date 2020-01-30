@@ -13,7 +13,7 @@ router.get('/',(req,res,next)=>{
     
     // res.sendFile(path.join(rootDir, 'views', 'shop.html'))
     const products = admin.products
-    res.render('shop.pug',{prods: products,docTitle:"Shop"})
+    res.render('shop.pug',{prods: products, pageTitle:"Shop", path: '/'})
     // can omit pug bc we already told app.js pug is the templating engine
 })
 

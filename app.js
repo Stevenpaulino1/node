@@ -18,7 +18,7 @@ app.use("/admin",admin.routes)
 app.use(routesShop)
 
 app.use((req,res,next)=>{
-    res.status(400).sendFile(path.join(__dirname,'views', 'not-found.html'))
+    res.status(400).render('404.pug', {pageTitle: "Not Found"})
 })
 
 app.listen(3000)
