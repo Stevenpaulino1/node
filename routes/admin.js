@@ -12,7 +12,7 @@ router.get('/add-product',(req,res,next)=>{
     // console.log(req);
     
     // res.sendFile(path.join(rootDir, 'views', 'add-product.html'))
-    res.render('add-product.pug', {pageTitle:"Add Product", path:"admin/add-product"})
+    res.render('add-product.ejs', {pageTitle:"Add Product", path:"admin/add-product"})
 })
 
 router.post('/add-product',(req,res,next)=>{
