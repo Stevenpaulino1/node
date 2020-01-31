@@ -5,6 +5,7 @@ const express = require('express')
 const admin = require('./routes/admin')
 const routesShop = require('./routes/shop')
 const bodyParser = require('body-parser')
+const errorController = require("./controllers/404.js")
 
 const app = express()
 
@@ -17,9 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use("/admin",admin.routes)
 app.use(routesShop)
 
-app.use((req,res,next)=>{
-    res.status(400).render('404.ejs', {pageTitle: "Not Found yo", path:"404"})
-})
+app.use(errorController.get404)
 
 app.listen(3000)
 

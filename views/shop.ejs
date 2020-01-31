@@ -7,11 +7,11 @@
     <%- include("includes/navigation.ejs") %> 
 
     <main>
-        <h1>My Products</h1>
-        <p>List of all the products...</p>
+        <!-- <h1>My Products</h1> -->
         <% if (hasProducts) { %>
-        <div class="grid">
-            <% for (let prod of prods){ %>
+            <div class="grid">
+                <p>List of all the products...</p>
+                <% for (let prod of prods){ %>
             <article class="card product-item">
                 <header class="card__header">
                     <h1 class="product__title"> <%=prod.title%></h1>
@@ -33,4 +33,4 @@
         <h1>No Products Found</h1>
         <%}%>
     </main>
-<%-include("includes/end.ejs")>
+<%-include("includes/end.ejs")%>
