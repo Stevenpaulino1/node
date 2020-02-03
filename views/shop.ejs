@@ -7,10 +7,8 @@
     <%- include("includes/navigation.ejs") %> 
 
     <main>
-        <!-- <h1>My Products</h1> -->
         <% if (hasProducts) { %>
             <div class="grid">
-                <p>List of all the products...</p>
                 <% for (let prod of prods){ %>
             <article class="card product-item">
                 <header class="card__header">
