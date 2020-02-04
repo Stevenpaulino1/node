@@ -17,7 +17,7 @@ exports.getProducts = (req,res,next)=>{
 exports.getIndex = (req,res,next)=>{
     Product.fetchAll((products)=>{
         res.render('shop/products.ejs',{
-            prods: products,
+            products: products,
             pageTitle:"Shop", 
             path: '/',
             hasProducts: products.length>0
@@ -36,5 +36,11 @@ exports.getCheckout = (req,res,next)=>{
     res.render("/shop/checkout.ejs",{
         path:"/checkout",
         pageTitle: "Checkout"
+    })
+}
+exports.getOrders = (req,res,next)=>{
+    res.render("/shop/orders.ejs",{
+        path:"/orders",
+        pageTitle: "Your Orders"
     })
 }
