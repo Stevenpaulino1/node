@@ -5,7 +5,7 @@ const Product = require('../models/product')
 exports.getProducts = (req,res,next)=>{
   Product.fetchAll((products)=>{
       res.render('shop/products.ejs',{
-          prods: products,
+          products: products,
           pageTitle:"All Products", 
           path: '/products',
           hasProducts: products.length>0
@@ -16,7 +16,7 @@ exports.getProducts = (req,res,next)=>{
 
 exports.getIndex = (req,res,next)=>{
     Product.fetchAll((products)=>{
-        res.render('shop/index.ejs',{
+        res.render('shop/products.ejs',{
             prods: products,
             pageTitle:"Shop", 
             path: '/',

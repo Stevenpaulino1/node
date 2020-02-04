@@ -6,7 +6,12 @@ exports.getAddProduct = (req,res,next)=>{
 }
 
 exports.postAddProduct = (req,res,next)=>{
-    const product = new Product(req.body.title)
+    const title = req.body.title;
+    const price = req.body.price;
+    const description = req.body.description;
+    const imgURL = req.body.title;
+
+    const product = new Product(title,price,description,imgURL)
     product.save()
     console.log("REDIRECTING");
     res.redirect('/')
@@ -15,7 +20,7 @@ exports.postAddProduct = (req,res,next)=>{
 exports.getProducts = (req,res,next)=>{
     Product.fetchAll((products)=>{
         res.render('admin/products.ejs',{
-            prods: products,
+            products: products,
             pageTitle:"Admin Products", 
             path: 'admin/products',
             hasProducts: products.length>0
