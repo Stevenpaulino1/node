@@ -9,7 +9,7 @@ exports.postAddProduct = (req,res,next)=>{
     const title = req.body.title;
     const price = req.body.price;
     const description = req.body.description;
-    const imgURL = req.body.title;
+    const imgURL = req.body.imgURL;
 
     const product = new Product(title,price,description,imgURL)
     product.save()

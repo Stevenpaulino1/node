@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require("crypto");
+
 
 const p = path.join(
   path.dirname(process.mainModule.filename),
@@ -26,6 +28,7 @@ module.exports = class Product {
   }
 
   save() {
+    this.id = this.randomID()
     getProductsFromFile(products => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), err => {
@@ -36,5 +39,20 @@ module.exports = class Product {
 
   static fetchAll(cb) {
     getProductsFromFile(cb);
+  }
+
+  static findById(id,cb){
+    // console.log("id",id);
+    getProductsFromFile(products=>{
+      // console.log("what is:", id);
+      const product = products.find(p => p.id === id)
+      // console.log("models",product);
+      
+      cb(product)
+    })
+  }
+
+  randomID() {
+    return crypto.randomBytes(4).toString("hex");
   }
 };
