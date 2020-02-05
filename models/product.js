@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require("crypto");
 
+const Cart = require('./cart')
+
 
 const p = path.join(
   path.dirname(process.mainModule.filename),
@@ -37,13 +39,13 @@ module.exports = class Product {
         const updatedProducts = [...products]
         updatedProducts[existingProdIndex] = this
         fs.writeFile(p, JSON.stringify(updatedProducts), err => {
-        console.log(err);
+        console.log('PRODUCT SAVE',err);
       });
     }else{
         this.id = this.randomID()
           products.push(this);
           fs.writeFile(p, JSON.stringify(products), err => {
-            console.log(err);
+            console.log("PRODUCT SAVE ELSE",err);
           });
       }
       });
@@ -54,13 +56,21 @@ module.exports = class Product {
   }
 
   static findById(id,cb){
-    // console.log("id",id);
     getProductsFromFile(products=>{
-      // console.log("what is:", id);
       const product = products.find(p => p.id === id)
-      // console.log("models",product);
-      
       cb(product)
+    })
+  }
+
+  static deleteById(id){
+    getProductsFromFile(products=>{
+      const product = products.find(prod =>prod.id === id)
+      const updatedProducts = products.filter(p => p.id !== id)
+      fs.writeFile(p, JSON.stringify(updatedProducts), err => {
+      if(!err){
+        Cart.deleteProduct(id, product.price)
+      }   
+       })
     })
   }
 
