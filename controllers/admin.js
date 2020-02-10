@@ -14,14 +14,19 @@ exports.postAddProduct = (req,res,next)=>{
     const price = req.body.price;
     const description = req.body.description;
     const imgURL = req.body.imgURL;
-    const product = new Product(null,title,price,description,imgURL)
+    const product = new Product(title,price,description,imgURL)
     product.save()
+    .then(result =>{
+        res.redirect('/admin/products')
+
+    })
+    .catch(err => console.log(err)
+    )
     console.log("REDIRECTING");
-    res.redirect('/')
 }
 
 exports.getEditProduct = (req,res,next)=>{
-    console.log(req.query);
+    // console.log(req.query);
     //query prop lives on request obj
 
     
@@ -30,36 +35,40 @@ exports.getEditProduct = (req,res,next)=>{
         return res.redirect('/')
     }
     const prodId = req.params.productId
-    Product.findById(prodId, product =>{
-        if(!product){
-            return res.redirect('/')
+    Product.findById(prodId).then(
+         product =>{
+            console.log("GET EDIT: WHAT IS PROD", product)
+
+            if(!product){
+                return res.redirect('/')
+            }
+            res.render('admin/edit-product.ejs', {
+                pageTitle:"Edit Product",
+                product: product,
+                path:"admin/edit-product",
+                editing:editMode
+        })
         }
-        res.render('admin/edit-product.ejs', {
-            pageTitle:"Edit Product",
-            product: product,
-            path:"admin/edit-product",
-            editing:editMode
-    })
-    })
+    )
 }
 
 exports.postEditProduct=(req,res,next)=>{
+    console.log("POSTEDITPRODUCT")
     const prodId = req.body.productId 
-    console.log("prodid",prodId);
-    
     const title = req.body.title;
     const price = req.body.price;
     const description = req.body.description;
     const imgURL = req.body.imgURL;
-    updatedProduct = new Product(prodId ,title,price,description,imgURL)  
-    console.log(updatedProduct);
+    const updatedProduct = new Product(title,price,description,imgURL, prodId)  
     
-    updatedProduct.save() 
-    res.redirect('/admin/products')
+    updatedProduct.save()
+    .then(result =>{
+        res.redirect('/admin/products')
+    }).catch(err => console.log(err))
 }
 
 exports.getProducts = (req,res,next)=>{
-    Product.fetchAll((products)=>{
+    Product.fetchAll().then((products)=>{
         res.render('admin/products.ejs',{
             products: products,
             pageTitle:"Admin Products", 

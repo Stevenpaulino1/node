@@ -4,26 +4,29 @@ const Cart = require('../models/cart')
 
 
 exports.getProducts = (req,res,next)=>{
-  Product.fetchAll((products)=>{
+    console.log('GET PRODUCTS')
+    Product.fetchAll().then(products => {
+      console.log("PRODUCTS",products)
       res.render('shop/products.ejs',{
-          products: products,
-          pageTitle:"All Products", 
-          path: '/products',
-          hasProducts: products.length>0
-      })
-  })
+        products: products,
+        pageTitle:"All Products", 
+        path: '/products',
+        hasProducts: products.length>0
+    })
+    })
+  .catch(err =>console.log(err))
     // can omit ejs bc we already told app.js ejs is the templating engine
 }
 
 exports.getProduct = (req,res,next)=>{
     const prodId = req.params.productId    
-    Product.findById(prodId, product =>{
+    Product.findById(prodId).then(product =>{
     res.render('shop/product-detail',{
         product: product,
         pageTitle:` ${product.title} Details`,
         path: '/products'
     })        
-    })
+    }).catch(err => console.log("err in get product", err))
     
 }
 
