@@ -8,6 +8,7 @@ const routesShop = require('./routes/shop')
 const bodyParser = require('body-parser')
 const errorController = require("./controllers/404.js")
 const mongoConnect = require('./utils/database').mongoConnect
+const User = require('./models/user')
 
 const app = express()
 
@@ -19,8 +20,16 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.static(path.join(__dirname, 'public')))
 
 // app.use((req,res,next)=>{
+//     User.findById()
+//     .then(user => {
+//         req.user = user
+//         next()
+//     })
+//     .catch(err => console.log(err))
 //     next()
 // })
+
+
 app.use("/admin",admin.routes)
 app.use(routesShop)
 
@@ -31,7 +40,7 @@ app.use(errorController.get404)
 
 
 mongoConnect(()=>{
-    console.log('CLIENT');
+
     app.listen(8003)
 })
 
