@@ -19,15 +19,14 @@ app.set("views", "views")
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.static(path.join(__dirname, 'public')))
 
-// app.use((req,res,next)=>{
-//     User.findById()
-//     .then(user => {
-//         req.user = user
-//         next()
-//     })
-//     .catch(err => console.log(err))
-//     next()
-// })
+app.use((req,res,next)=>{
+    User.findById("5e543aa3aa78203fc2ca4bfa")
+    .then(user => {
+        req.user = user
+        next()
+    })
+    .catch(err => console.log(err))
+})
 
 
 app.use("/admin",admin.routes)

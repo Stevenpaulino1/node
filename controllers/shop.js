@@ -4,9 +4,9 @@ const Cart = require('../models/cart')
 
 
 exports.getProducts = (req,res,next)=>{
-    console.log('GET PRODUCTS')
+    // console.log('GET PRODUCTS')
     Product.fetchAll().then(products => {
-      console.log("PRODUCTS",products)
+    //   console.log("PRODUCTS",products)
       res.render('shop/products.ejs',{
         products: products,
         pageTitle:"All Products", 
