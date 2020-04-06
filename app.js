@@ -25,7 +25,7 @@ app.use((req,res,next)=>{
         req.user = new User(user.name, user.email, user.cart, user._id)
         next()
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log("APP ERROR",err))
 })
 
 

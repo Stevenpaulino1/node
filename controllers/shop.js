@@ -42,42 +42,37 @@ exports.getIndex = (req,res,next)=>{
 }
 
 exports.getCart = (req,res,next)=>{
-    Cart.getCart((cart)=>{
-        Product.fetchAll(products =>{
-            const cartProducts = []
-            for(product of products){
-                const cartProductData = cart.products.find(prod=>prod.id === product.id)
-            if (cartProductData){
-                cartProducts.push({productData:product, qty: cartProductData.qty })
-            }
-            }
-            res.render("shop/cart.ejs",{
-                path:'/cart',
-                pageTitle:"Your Cart",
-                products:cartProducts
-            })
-        })
-    })
+   req.user.getCart()
+   .then(products =>{
+       console.log("products", products)
+       res.render('shop/cart', {
+           path: '/cart',
+           pageTitle: "Your Cart",
+           products: products
+       })
+   })
+   .catch(err => console.log(err))
+    
 }
 
 exports.postCart = (req,res,next)=>{
-
     const prodId = req.body.productId
     Product.findById(prodId).then(product =>{
-        return req.user.addToCart(product)
+        req.user.addToCart(product)
+        res.redirect('/cart')
+
     }).then(result => {
-        console.log(result)
+        console.log("result")
     })
-    // res.redirect('/cart')
 }
 
 exports.postCartDeleteProduct=(req,res,next)=>{
-    // const { productId, productPrice} = req.body; 
     const { productId} = req.body; 
-    Product.findById(productId, product =>{
-        Cart.deleteProduct(productId, product.price)
-        res.redirect('/cart')
+    req.user.deleteItemFromCart(productId)
+    .then(result =>{
+        res.redirect('cart')
     })
+    .catch(err => console.log(err))
 }
 
 exports.getCheckout = (req,res,next)=>{
@@ -91,4 +86,9 @@ exports.getOrders = (req,res,next)=>{
         path:"/orders",
         pageTitle: "Your Orders"
     })
+}
+exports.postOrders = (req,res,next)=>{
+    req.user.addOrder().then(result =>{
+        res.redirect("/shop/orders.ejs")
+    }).catch(err => console.log(err))
 }
