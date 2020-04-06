@@ -65,8 +65,19 @@ module.exports = class User {
 
     addOrder(){
         const db = getDb()
-        return db.collection('orders')
-        .insertOne(this.cart).then(result => {
+       return this.getCart()
+        .then(products =>{
+            const order = {
+                items: products,
+                user: {
+                    _id: new ObjectId(this.id),
+                    name: this.name
+                }
+            }
+
+            return db.collection('orders')
+            .insertOne(order)
+        }).then(result => {
             this.cart = {items: []}
             return db
             .collection("users")
@@ -77,6 +88,8 @@ module.exports = class User {
         })
 
     }
+
+
 
     deleteItemFromCart(productId){
        const updatedCartItems = this.cart.items.filter(item =>{
@@ -98,4 +111,6 @@ module.exports = class User {
         return user
     }).catch(err => console.log(err))
     }
+
+
 }
