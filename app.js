@@ -2,13 +2,16 @@
 const path = require('path')
 
 const express = require('express')
+const mongoose = require('mongoose')
+const {password} = require('./mykeys.js')
+
 
 const admin = require('./routes/admin')
 const routesShop = require('./routes/shop')
 const bodyParser = require('body-parser')
 const errorController = require("./controllers/404.js")
-const mongoConnect = require('./utils/database').mongoConnect
 const User = require('./models/user')
+
 
 const app = express()
 
@@ -20,7 +23,7 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use((req,res,next)=>{
-    User.findById("5e543aa3aa78203fc2ca4bfa")
+    User.findById("5e8b6bfc57683f02046fb4d6")
     .then(user => {
         req.user = new User(user.name, user.email, user.cart, user._id)
         next()
@@ -37,10 +40,9 @@ app.use(routesShop)
 
 app.use(errorController.get404)
 
-
-mongoConnect(()=>{
-
-    app.listen(8003)
-})
+mongoose.connect(`mongodb+srv://stevenpaulino1:${password}@cluster0-13cav.mongodb.net/test?retryWrites=true&w=majority
+`).then(result=>{
+    app.listen('8003')
+}).catch(err => console.log(err))
 
 

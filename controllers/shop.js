@@ -1,5 +1,4 @@
 const Product = require('../models/product')
-const Cart = require('../models/cart')
 
 
 
@@ -82,9 +81,13 @@ exports.getCheckout = (req,res,next)=>{
     })
 }
 exports.getOrders = (req,res,next)=>{
-    res.render("/shop/orders.ejs",{
-        path:"/orders",
-        pageTitle: "Your Orders"
+    req.user.getOrders().then(orders =>{
+
+        res.render("/shop/orders.ejs",{
+            path:"/orders",
+            pageTitle: "Your Orders",
+            orders: orders 
+        })
     })
 }
 exports.postOrders = (req,res,next)=>{
