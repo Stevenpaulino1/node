@@ -68,7 +68,7 @@ exports.postEditProduct=(req,res,next)=>{
 }
 
 exports.getProducts = (req,res,next)=>{
-    Product.fetchAll().then((products)=>{
+    Product.find().then((products)=>{
         res.render('admin/products.ejs',{
             products: products,
             pageTitle:"Admin Products", 

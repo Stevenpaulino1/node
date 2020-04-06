@@ -4,8 +4,8 @@ const Product = require('../models/product')
 
 exports.getProducts = (req,res,next)=>{
     // console.log('GET PRODUCTS')
-    Product.fetchAll().then(products => {
-    //   console.log("PRODUCTS",products)
+    Product.find().then(products => {
+      console.log("PRODUCTS",products)
       res.render('shop/products.ejs',{
         products: products,
         pageTitle:"All Products", 
@@ -30,12 +30,12 @@ exports.getProduct = (req,res,next)=>{
 }
 
 exports.getIndex = (req,res,next)=>{
-    Product.fetchAll((products)=>{
-        res.render('shop/products.ejs',{
+    Product.find().then((products)=>{
+        res.render('shop/index.ejs',{
             products: products,
             pageTitle:"Shop", 
             path: '/',
-            hasProducts: products.length>0
+            hasProducts: products.length > 0
         })
     })
 }
