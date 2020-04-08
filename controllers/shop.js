@@ -87,9 +87,9 @@ exports.getCheckout = (req,res,next)=>{
     })
 }
 exports.getOrders = (req,res,next)=>{
-    req.user.getOrders().then(orders =>{
-
-        res.render("/shop/orders.ejs",{
+    Order.find({"user.userId": req.user._id})
+    .then(orders =>{
+        res.render("shop/orders.ejs",{
             path:"/orders",
             pageTitle: "Your Orders",
             orders: orders 
@@ -113,6 +113,7 @@ exports.postOrders = (req,res,next)=>{
         return order.save()
     })
     .then(result =>{
-        res.redirect("/shop/orders.ejs")
-    }).catch(err => console.log(err))
+        return req.user.clearCart()
+    }).then(()=>res.redirect("/shop/orders.ejs")
+    ).catch(err => console.log(err))
 }
